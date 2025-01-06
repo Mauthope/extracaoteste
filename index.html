@@ -107,53 +107,58 @@
 
       const reader = new FileReader();
       reader.onload = (event) => {
-        const data = new Uint8Array(event.target.result);
-        const workbook = XLSX.read(data, { type: 'array' });
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
+        try {
+          const data = new Uint8Array(event.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
 
-        // Mapeamento das células para os campos do formulário
-        const mapping = {
-          'A6': 'nomePropriedade',
-          'F6': 'dataVisita',
-          'H6': 'producaoLeite',
-          'I6': 'vacasLactacao',
-          'CN6': 'quantPrimiparas',
-          'CO6': 'mediaLeite',
-          'CP6': 'lote1',
-          'CR6': 'lote2',
-          'CS6': 'lote3',
-          'CT6': 'delMedio',
-          'DA6': 'tmrComposicao',
-          'DD6': 'kgSilagem',
-          'DE6': 'kgFeno',
-          'DI6': 'kgPreSecado',
-          'DQ6': 'kgRacao',
-          'EG6': 'sobrasCoxo',
-          'EM6': 'tempoSilagem',
-          'EN6': 'vacasPreParto',
-          'EO6': 'dietaPreParto',
-          'EP6': 'escoreCocho',
-          'FB6': 'escoreCorporal',
-          'FL6': 'uFDN240h',
-          'FV6': 'dig',
-          'FY6': 'kd',
-          'FZ6': 'kda',
-          'GE6': 'ndt',
-          'GF6': 'milk'
-        };
+          // Mapeamento das células para os campos do formulário
+          const mapping = {
+            'A6': 'nomePropriedade',
+            'F6': 'dataVisita',
+            'H6': 'producaoLeite',
+            'I6': 'vacasLactacao',
+            'CN6': 'quantPrimiparas',
+            'CO6': 'mediaLeite',
+            'CP6': 'lote1',
+            'CR6': 'lote2',
+            'CS6': 'lote3',
+            'CT6': 'delMedio',
+            'DA6': 'tmrComposicao',
+            'DD6': 'kgSilagem',
+            'DE6': 'kgFeno',
+            'DI6': 'kgPreSecado',
+            'DQ6': 'kgRacao',
+            'EG6': 'sobrasCoxo',
+            'EM6': 'tempoSilagem',
+            'EN6': 'vacasPreParto',
+            'EO6': 'dietaPreParto',
+            'EP6': 'escoreCocho',
+            'FB6': 'escoreCorporal',
+            'FL6': 'uFDN240h',
+            'FV6': 'dig',
+            'FY6': 'kd',
+            'FZ6': 'kda',
+            'GE6': 'ndt',
+            'GF6': 'milk'
+          };
 
-        for (const [cell, fieldId] of Object.entries(mapping)) {
-          const cellValue = sheet[cell]?.v;
-          const field = document.getElementById(fieldId);
+          for (const [cell, fieldId] of Object.entries(mapping)) {
+            const cellValue = sheet[cell]?.v;
+            const field = document.getElementById(fieldId);
 
-          if (field) {
-            if (field.type === 'date') {
-              field.value = new Date((cellValue - 25569) * 86400 * 1000).toISOString().split('T')[0]; // Excel date
-            } else {
-              field.value = cellValue || '';
+            if (field) {
+              if (field.type === 'date') {
+                field.value = cellValue ? new Date((cellValue - 25569) * 86400 * 1000).toISOString().split('T')[0] : '';
+              } else {
+                field.value = cellValue ?? '';
+              }
             }
           }
+        } catch (error) {
+          console.error('Erro ao processar a planilha:', error);
+          alert('Ocorreu um erro ao processar a planilha. Verifique o arquivo e tente novamente.');
         }
       };
 
