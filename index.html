@@ -150,7 +150,9 @@
 
             if (field) {
               if (field.type === 'date') {
-                field.value = cellValue ? new Date((cellValue - 25569) * 86400 * 1000).toISOString().split('T')[0] : '';
+                const excelDateOffset = 25569; // Dias entre 1/1/1900 e 1/1/1970
+                const dateValue = new Date((cellValue - excelDateOffset) * 86400 * 1000);
+                field.value = cellValue ? dateValue.toISOString().split('T')[0] : '';
               } else {
                 field.value = cellValue ?? '';
               }
