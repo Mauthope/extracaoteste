@@ -155,87 +155,93 @@
   <div id="message"></div>
 
   <script>
-    document.getElementById('process').addEventListener('click', () => {
-      const fileInput = document.getElementById('upload');
-      const file = fileInput.files[0];
-      const messageElement = document.getElementById('message');
+  document.getElementById('process').addEventListener('click', () => {
+    const fileInput = document.getElementById('upload');
+    const file = fileInput.files[0];
+    const messageElement = document.getElementById('message');
 
-      if (!file) {
-        alert('Por favor, selecione uma planilha.');
-        return;
-      }
+    if (!file) {
+      alert('Por favor, selecione uma planilha.');
+      return;
+    }
 
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        try {
-          const data = new Uint8Array(event.target.result);
-          const workbook = XLSX.read(data, { type: 'array' });
-          const sheetName = workbook.SheetNames[0];
-          const sheet = workbook.Sheets[sheetName];
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
 
-          // Mapeamento das células para os campos do formulário
-          const mapping = {
-            'A6': 'nomePropriedade',
-            'F6': 'dataVisita',
-            'H6': 'producaoLeite',
-            'I6': 'vacasLactacao',
-            'CN6': 'quantPrimiparas',
-            'CO6': 'mediaLeite',
-            'CP6': 'lote1',
-            'CR6': 'lote2',
-            'CS6': 'lote3',
-            'CT6': 'delMedio',
-            'DA6': 'tmrComposicao',
-            'DD6': 'kgSilagem',
-            'DE6': 'kgFeno',
-            'DI6': 'kgPreSecado',
-            'DQ6': 'kgRacao',
-            'EG6': 'sobrasCoxo',
-            'EM6': 'tempoSilagem',
-            'EN6': 'vacasPreParto',
-            'EO6': 'dietaPreParto',
-            'EP6': 'escoreCocho',
-            'FB6': 'escoreCorporal',
-            'FL6': 'uFDN240h',
-            'FV6': 'dig',
-            'FY6': 'kd',
-            'FZ6': 'kda',
-            'GE6': 'ndt',
-            'GF6': 'milk'
-          };
+        const mapping = {
+          'A6': 'nomePropriedade',
+          'F6': 'dataVisita',
+          'H6': 'producaoLeite',
+          'I6': 'vacasLactacao',
+          'CN6': 'quantPrimiparas',
+          'CO6': 'mediaLeite',
+          'CP6': 'lote1',
+          'CR6': 'lote2',
+          'CS6': 'lote3',
+          'CT6': 'delMedio',
+          'DA6': 'tmrComposicao',
+          'DD6': 'kgSilagem',
+          'DE6': 'kgFeno',
+          'DI6': 'kgPreSecado',
+          'DQ6': 'kgRacao',
+          'EG6': 'sobrasCoxo',
+          'EM6': 'tempoSilagem',
+          'EN6': 'vacasPreParto',
+          'EO6': 'dietaPreParto',
+          'EP6': 'escoreCocho',
+          'FB6': 'escoreCorporal',
+          'FL6': 'uFDN240h',
+          'FV6': 'dig',
+          'FY6': 'kd',
+          'FZ6': 'kda',
+          'GE6': 'ndt',
+          'GF6': 'milk'
+        };
 
-          for (const [cell, fieldId] of Object.entries(mapping)) {
-            const cellValue = sheet[cell]?.v;
-            const field = document.getElementById(fieldId);
+        for (const [cell, fieldId] of Object.entries(mapping)) {
+          const cellValue = sheet[cell]?.v;
+          const field = document.getElementById(fieldId);
 
-            if (field) {
-              if (fieldId === 'dataVisita') {
-                // Tratamento especial para o campo de data (célula F6)
-                if (cellValue instanceof Date) {
-                  field.value = cellValue.toISOString().split('T')[0];
-                } else if (typeof cellValue === 'number') {
-                  const date = XLSX.SSF.parse_date_code(cellValue);
-                  field.value = `${date.y}-${String(date.m).padStart(2, '0')}-${String(date.d).padStart(2, '0')}`;
-                } else {
-                  field.value = cellValue ?? '';
-                }
+          if (field) {
+            if (fieldId === 'dataVisita') {
+              // Tratamento especial para datas
+              if (typeof cellValue === 'string' && cellValue.includes('/')) {
+                const [day, month, year] = cellValue.split('/').map(Number);
+                field.value = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+              } else if (typeof cellValue === 'number') {
+                const date = XLSX.SSF.parse_date_code(cellValue);
+                field.value = `${date.y}-${String(date.m).padStart(2, '0')}-${String(date.d).padStart(2, '0')}`;
               } else {
-                // Para todos os outros campos, mantenha o valor original
-                field.value = cellValue !== undefined ? cellValue : '';
+                field.value = '';
               }
+            } else {
+              // Para outros campos
+              field.value = cellValue !== undefined ? cellValue : '';
             }
           }
-
-          messageElement.textContent = 'Dados carregados na íntegra da planilha!';
-          messageElement.style.display = 'block';
-        } catch (error) {
-          console.error('Erro ao processar a planilha:', error);
-          alert('Ocorreu um erro ao processar a planilha. Verifique o arquivo e tente novamente.');
         }
-      };
 
-      reader.readAsArrayBuffer(file);
-    });
-  </script>
+        messageElement.textContent = 'Dados carregados na íntegra da planilha!';
+        messageElement.style.display = 'block';
+        messageElement.style.backgroundColor = '#e6f7e6';
+        messageElement.style.border = '1px solid #4CAF50';
+      } catch (error) {
+        console.error('Erro ao processar a planilha:', error);
+        messageElement.textContent = 'Erro ao carregar os dados da planilha. Verifique o arquivo e tente novamente.';
+        messageElement.style.display = 'block';
+        messageElement.style.backgroundColor = '#f8d7da';
+        messageElement.style.border = '1px solid #f5c6cb';
+      }
+    };
+
+    reader.readAsArrayBuffer(file);
+  });
+</script>
+
 </body>
 </html>
