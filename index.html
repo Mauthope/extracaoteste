@@ -15,7 +15,7 @@
 
     .container {
       width: 80%;
-      max-width: 600px;
+      max-width: 800px;
       margin: 20px auto;
       padding: 20px;
       background: #fff;
@@ -29,20 +29,24 @@
     }
 
     form {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
     label {
-      margin-top: 15px;
+      display: block;
+      margin-bottom: 5px;
       font-weight: bold;
     }
 
     input, select, button {
+      width: 100%;
       padding: 10px;
       margin-top: 5px;
       border: 1px solid #ccc;
       border-radius: 4px;
+      box-sizing: border-box;
     }
 
     button {
@@ -67,6 +71,14 @@
     .import-section {
       margin-bottom: 20px;
     }
+
+    #message {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #e6f7e6;
+      border: 1px solid #4CAF50;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -82,94 +94,126 @@
     </div>
 
     <form id="propriedadeForm">
-      <label for="nomePropriedade">Cliente:</label>
-      <input type="text" id="nomePropriedade" name="nomePropriedade" required>
-
-      <label for="dataVisita">Data de entrada:</label>
-      <input type="date" id="dataVisita" name="dataVisita" required>
-      
-      <label for="producaoLeite">Código de Barras (L):</label>
-      <input type="number" id="producaoLeite" name="producaoLeite" required>
-
-      <label for="vacasLactacao">Descrição:</label>
-      <input type="text" id="vacasLactacao" name="vacasLactacao" required>
-
-      <label for="quantPrimiparas">MS(%):</label>
-      <input type="number" id="quantPrimiparas" name="quantPrimiparas" step="0.1" required>
-
-      <label for="mediaLeite">Umidade (%):</label>
-      <input type="number" id="mediaLeite" name="mediaLeite" step="0.1" required>
-
-      <label for="lote1">FDA (%):</label>
-      <input type="number" id="lote1" name="lote1" step="0.1" required>
-
-      <label for="lote2">FDNmo (%):</label>
-      <input type="number" id="lote2" name="lote2" step="0.1" required>
-
-      <label for="lote3">Lignina (%):</label>
-      <input type="number" id="lote3" name="lote3" step="0.1" required>
-
-      <label for="delMedio">Amido (%):</label>
-      <input type="number" id="delMedio" name="delMedio" step="0.1" required>
-
-      <label for="tmrComposicao">Proteína Bruta (%):</label>
-      <input type="number" id="tmrComposicao" name="tmrComposicao" step="0.1" required>
-
-      <label for="kgSilagem">PIDA (%):</label>
-      <input type="number" id="kgSilagem" name="kgSilagem" step="0.1" required>
-
-      <label for="kgFeno">PIDN (%):</label>
-      <input type="number" id="kgFeno" name="kgFeno" step="0.1" required>
-
-      <label for="kgPreSecado">Proteína Solúvel (%):</label>
-      <input type="number" id="kgPreSecado" name="kgPreSecado" step="0.1" required>
-
-      <label for="kgRacao">EE (%):</label>
-      <input type="number" id="kgRacao" name="kgRacao" step="0.1" required>
-
-      <label for="sobrasCoxo">Cinzas (%):</label>
-      <input type="number" id="sobrasCoxo" name="sobrasCoxo" step="0.1" required>
-
-      <label for="tempoSilagem">pH:</label>
-      <input type="number" id="tempoSilagem" name="tempoSilagem" step="0.01" required>
-
-      <label for="vacasPreParto">Ácido Láctico (%):</label>
-      <input type="number" id="vacasPreParto" name="vacasPreParto" step="0.1" required>
-
-      <label for="dietaPreParto">Ácido Acético (%):</label>
-      <input type="number" id="dietaPreParto" name="dietaPreParto" step="0.1" required>
-
-      <label for="escoreCocho">Ácido Butírico (%):</label>
-      <input type="number" id="escoreCocho" name="escoreCocho" step="0.1" required>
-
-      <label for="escoreCorporal">dFDNp 48h (%):</label>
-      <input type="number" id="escoreCorporal" name="escoreCorporal" step="0.1" required>
-
-      <label for="uFDN240h">uFDN 240h (%):</label>
-      <input type="number" id="uFDN240h" name="uFDN240h" step="0.1" required>
-
-      <label for="dig">Dig. In Situ Amido (%):</label>
-      <input type="number" id="dig" name="dig" step="0.1" required>
-
-      <label for="kd">Kd FDN (%/h):</label>
-      <input type="number" id="kd" name="kd" step="0.1" required>
-
-      <label for="kda">Kd Amido (%/h):</label>
-      <input type="number" id="kda" name="kda" step="0.1" required>
-
-      <label for="ndt">NDT (%):</label>
-      <input type="number" id="ndt" name="ndt" step="0.1" required>
-
-      <label for="milk">Milk/Ton (kg):</label>
-      <input type="number" id="milk" name="milk" step="0.1" required>
+      <div>
+        <label for="nomePropriedade">Cliente:</label>
+        <input type="text" id="nomePropriedade" name="nomePropriedade" required>
+      </div>
+      <div>
+        <label for="dataVisita">Data de entrada:</label>
+        <input type="text" id="dataVisita" name="dataVisita" required>
+      </div>
+      <div>
+        <label for="producaoLeite">Código de Barras (L):</label>
+        <input type="text" id="producaoLeite" name="producaoLeite" required>
+      </div>
+      <div>
+        <label for="vacasLactacao">Descrição:</label>
+        <input type="text" id="vacasLactacao" name="vacasLactacao" required>
+      </div>
+      <div>
+        <label for="quantPrimiparas">MS(%):</label>
+        <input type="text" id="quantPrimiparas" name="quantPrimiparas" required>
+      </div>
+      <div>
+        <label for="mediaLeite">Umidade (%):</label>
+        <input type="text" id="mediaLeite" name="mediaLeite" required>
+      </div>
+      <div>
+        <label for="lote1">FDA (%):</label>
+        <input type="text" id="lote1" name="lote1" required>
+      </div>
+      <div>
+        <label for="lote2">FDNmo (%):</label>
+        <input type="text" id="lote2" name="lote2" required>
+      </div>
+      <div>
+        <label for="lote3">Lignina (%):</label>
+        <input type="text" id="lote3" name="lote3" required>
+      </div>
+      <div>
+        <label for="delMedio">Amido (%):</label>
+        <input type="text" id="delMedio" name="delMedio" required>
+      </div>
+      <div>
+        <label for="tmrComposicao">Proteína Bruta (%):</label>
+        <input type="text" id="tmrComposicao" name="tmrComposicao" required>
+      </div>
+      <div>
+        <label for="kgSilagem">PIDA (%):</label>
+        <input type="text" id="kgSilagem" name="kgSilagem" required>
+      </div>
+      <div>
+        <label for="kgFeno">PIDN (%):</label>
+        <input type="text" id="kgFeno" name="kgFeno" required>
+      </div>
+      <div>
+        <label for="kgPreSecado">Proteína Solúvel (%):</label>
+        <input type="text" id="kgPreSecado" name="kgPreSecado" required>
+      </div>
+      <div>
+        <label for="kgRacao">EE (%):</label>
+        <input type="text" id="kgRacao" name="kgRacao" required>
+      </div>
+      <div>
+        <label for="sobrasCoxo">Cinzas (%):</label>
+        <input type="text" id="sobrasCoxo" name="sobrasCoxo" required>
+      </div>
+      <div>
+        <label for="tempoSilagem">pH:</label>
+        <input type="text" id="tempoSilagem" name="tempoSilagem" required>
+      </div>
+      <div>
+        <label for="vacasPreParto">Ácido Láctico (%):</label>
+        <input type="text" id="vacasPreParto" name="vacasPreParto" required>
+      </div>
+      <div>
+        <label for="dietaPreParto">Ácido Acético (%):</label>
+        <input type="text" id="dietaPreParto" name="dietaPreParto" required>
+      </div>
+      <div>
+        <label for="escoreCocho">Ácido Butírico (%):</label>
+        <input type="text" id="escoreCocho" name="escoreCocho" required>
+      </div>
+      <div>
+        <label for="escoreCorporal">dFDNp 48h (%):</label>
+        <input type="text" id="escoreCorporal" name="escoreCorporal" required>
+      </div>
+      <div>
+        <label for="uFDN240h">uFDN 240h (%):</label>
+        <input type="text" id="uFDN240h" name="uFDN240h" required>
+      </div>
+      <div>
+        <label for="dig">Dig. In Situ Amido (%):</label>
+        <input type="text" id="dig" name="dig" required>
+      </div>
+      <div>
+        <label for="kd">Kd FDN (%/h):</label>
+        <input type="text" id="kd" name="kd" required>
+      </div>
+      <div>
+        <label for="kda">Kd Amido (%/h):</label>
+        <input type="text" id="kda" name="kda" required>
+      </div>
+      <div>
+        <label for="ndt">NDT (%):</label>
+        <input type="text" id="ndt" name="ndt" required>
+      </div>
+      <div>
+        <label for="milk">Milk/Ton (kg):</label>
+        <input type="text" id="milk" name="milk" required>
+      </div>
 
       <!-- Campo para localização -->
-      <label>Localização da Propriedade:</label>
-      <button type="button" id="getLocation">Adicionar Localização</button>
+      <div>
+        <label>Localização da Propriedade:</label>
+        <button type="button" id="getLocation">Adicionar Localização</button>
+      </div>
       <div id="map"></div>
 
       <button type="submit">Enviar</button>
     </form>
+
+    <div id="message"></div>
   </div>
 
   <script>
@@ -218,35 +262,12 @@
 
     // Função para armazenar os dados no localStorage
     function saveFormData() {
-      const formData = {
-        nomePropriedade: document.getElementById('nomePropriedade').value,
-        dataVisita: document.getElementById('dataVisita').value,
-        producaoLeite: document.getElementById('producaoLeite').value,
-        vacasLactacao: document.getElementById('vacasLactacao').value,
-        quantPrimiparas: document.getElementById('quantPrimiparas').value,
-        mediaLeite: document.getElementById('mediaLeite').value,
-        lote1: document.getElementById('lote1').value,
-        lote2: document.getElementById('lote2').value,
-        lote3: document.getElementById('lote3').value,
-        delMedio: document.getElementById('delMedio').value,
-        tmrComposicao: document.getElementById('tmrComposicao').value,
-        kgSilagem: document.getElementById('kgSilagem').value,
-        kgFeno: document.getElementById('kgFeno').value,
-        kgPreSecado: document.getElementById('kgPreSecado').value,
-        kgRacao: document.getElementById('kgRacao').value,
-        sobrasCoxo: document.getElementById('sobrasCoxo').value,
-        tempoSilagem: document.getElementById('tempoSilagem').value,
-        vacasPreParto: document.getElementById('vacasPreParto').value,
-        dietaPreParto: document.getElementById('dietaPreParto').value,
-        escoreCocho: document.getElementById('escoreCocho').value,
-        escoreCorporal: document.getElementById('escoreCorporal').value,
-        uFDN240h: document.getElementById('uFDN240h').value,
-        dig: document.getElementById('dig').value,
-        kd: document.getElementById('kd').value,
-        kda: document.getElementById('kda').value,
-        ndt: document.getElementById('ndt').value,
-        milk: document.getElementById('milk').value,
-      };
+      const formData = {};
+      const form = document.getElementById('propriedadeForm');
+      const inputs = form.querySelectorAll('input');
+      inputs.forEach(input => {
+        formData[input.name] = input.value;
+      });
 
       const storedData = JSON.parse(localStorage.getItem('formData')) || [];
       storedData.push(formData);
@@ -300,35 +321,11 @@
     document.getElementById('propriedadeForm').addEventListener('submit', function(event) {
       event.preventDefault();
 
-      const formData = {
-        nomePropriedade: document.getElementById('nomePropriedade').value,
-        dataVisita: document.getElementById('dataVisita').value,
-        producaoLeite: document.getElementById('producaoLeite').value,
-        vacasLactacao: document.getElementById('vacasLactacao').value,
-        quantPrimiparas: document.getElementById('quantPrimiparas').value,
-        mediaLeite: document.getElementById('mediaLeite').value,
-        lote1: document.getElementById('lote1').value,
-        lote2: document.getElementById('lote2').value,
-        lote3: document.getElementById('lote3').value,
-        delMedio: document.getElementById('delMedio').value,
-        tmrComposicao: document.getElementById('tmrComposicao').value,
-        kgSilagem: document.getElementById('kgSilagem').value,
-        kgFeno: document.getElementById('kgFeno').value,
-        kgPreSecado: document.getElementById('kgPreSecado').value,
-        kgRacao: document.getElementById('kgRacao').value,
-        sobrasCoxo: document.getElementById('sobrasCoxo').value,
-        tempoSilagem: document.getElementById('tempoSilagem').value,
-        vacasPreParto: document.getElementById('vacasPreParto').value,
-        dietaPreParto: document.getElementById('dietaPreParto').value,
-        escoreCocho: document.getElementById('escoreCocho').value,
-        escoreCorporal: document.getElementById('escoreCorporal').value,
-        uFDN240h: document.getElementById('uFDN240h').value,
-        dig: document.getElementById('dig').value,
-        kd: document.getElementById('kd').value,
-        kda: document.getElementById('kda').value,
-        ndt: document.getElementById('ndt').value,
-        milk: document.getElementById('milk').value,
-      };
+      const formData = {};
+      const inputs = this.querySelectorAll('input');
+      inputs.forEach(input => {
+        formData[input.name] = input.value;
+      });
 
       // Armazenar os dados offline e enviar para o Google Sheets
       saveFormData();
@@ -339,6 +336,7 @@
     document.getElementById('importExcel').addEventListener('click', function() {
       const fileInput = document.getElementById('excelFile');
       const file = fileInput.files[0];
+      const messageElement = document.getElementById('message');
 
       if (!file) {
         alert('Por favor, selecione uma planilha.');
@@ -347,56 +345,57 @@
 
       const reader = new FileReader();
       reader.onload = function(e) {
-        const data = new Uint8Array(e.target.result);
-        const workbook = XLSX.read(data, {type: 'array'});
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
+        try {
+          const data = new Uint8Array(e.target.result);
+          const workbook = XLSX.read(data, {type: 'array'});
+          const sheetName = workbook.SheetNames[0];
+          const sheet = workbook.Sheets[sheetName];
 
-        const mapping = {
-          'A6': 'nomePropriedade',
-          'F6': 'dataVisita',
-          'H6': 'producaoLeite',
-          'I6': 'vacasLactacao',
-          'CN6': 'quantPrimiparas',
-          'CO6': 'mediaLeite',
-          'CP6': 'lote1',
-          'CR6': 'lote2',
-          'CS6': 'lote3',
-          'CT6': 'delMedio',
-          'DA6': 'tmrComposicao',
-          'DD6': 'kgSilagem',
-          'DE6': 'kgFeno',
-          'DI6': 'kgPreSecado',
-          'DQ6': 'kgRacao',
-          'EG6': 'sobrasCoxo',
-          'EM6': 'tempoSilagem',
-          'EN6': 'vacasPreParto',
-          'EO6': 'dietaPreParto',
-          'EP6': 'escoreCocho',
-          'FB6': 'escoreCorporal',
-          'FL6': 'uFDN240h',
-          'FV6': 'dig',
-          'FY6': 'kd',
-          'FZ6': 'kda',
-          'GE6': 'ndt',
-          'GF6': 'milk'
-        };
+          const mapping = {
+            'A6': 'nomePropriedade',
+            'F6': 'dataVisita',
+            'H6': 'producaoLeite',
+            'I6': 'vacasLactacao',
+            'CN6': 'quantPrimiparas',
+            'CO6': 'mediaLeite',
+            'CP6': 'lote1',
+            'CR6': 'lote2',
+            'CS6': 'lote3',
+            'CT6': 'delMedio',
+            'DA6': 'tmrComposicao',
+            'DD6': 'kgSilagem',
+            'DE6': 'kgFeno',
+            'DI6': 'kgPreSecado',
+            'DQ6': 'kgRacao',
+            'EG6': 'sobrasCoxo',
+            'EM6': 'tempoSilagem',
+            'EN6': 'vacasPreParto',
+            'EO6': 'dietaPreParto',
+            'EP6': 'escoreCocho',
+            'FB6': 'escoreCorporal',
+            'FL6': 'uFDN240h',
+            'FV6': 'dig',
+            'FY6': 'kd',
+            'FZ6': 'kda',
+            'GE6': 'ndt',
+            'GF6': 'milk'
+          };
 
-        for (const [cell, fieldId] of Object.entries(mapping)) {
-          const cellValue = sheet[cell]?.v;
-          const field = document.getElementById(fieldId);
+          for (const [cell, fieldId] of Object.entries(mapping)) {
+            const cellValue = sheet[cell]?.v;
+            const field = document.getElementById(fieldId);
 
-          if (field && cellValue !== undefined) {
-            if (fieldId === 'dataVisita') {
-              // Trata a data como uma string, mantendo o formato original
-              field.value = cellValue;
-            } else {
+            if (field && cellValue !== undefined) {
               field.value = cellValue;
             }
           }
-        }
 
-        alert('Dados importados com sucesso!');
+          messageElement.textContent = 'Dados carregados com sucesso!';
+          messageElement.style.display = 'block';
+        } catch (error) {
+          console.error('Erro ao processar a planilha:', error);
+          alert('Ocorreu um erro ao processar a planilha. Verifique o arquivo e tente novamente.');
+        }
       };
 
       reader.readAsArrayBuffer(file);
