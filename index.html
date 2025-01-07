@@ -220,10 +220,8 @@
                   console.warn(`Valor inválido para campo de data: ${cellValue}`);
                   field.value = '';
                 }
-              } else if (field.type === 'number') {
-                field.value = cellValue !== undefined ? parseFloat(cellValue).toFixed(2) : '';
               } else {
-                field.value = cellValue ?? '';
+                field.value = cellValue !== undefined ? cellValue : '';
               }
             }
           }
