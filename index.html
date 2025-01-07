@@ -210,23 +210,23 @@
 
             if (field) {
               if (fieldId === 'dataVisita') {
+                // Tratamento especial para o campo de data (célula F6)
                 if (cellValue instanceof Date) {
                   field.value = cellValue.toISOString().split('T')[0];
                 } else if (typeof cellValue === 'number') {
-                  const excelDateOffset = 25569; // Dias entre 1/1/1900 e 1/1/1970
-                  const dateValue = new Date((cellValue - excelDateOffset) * 86400 * 1000);
-                  field.value = dateValue.toISOString().split('T')[0];
+                  const date = XLSX.SSF.parse_date_code(cellValue);
+                  field.value = `${date.y}-${String(date.m).padStart(2, '0')}-${String(date.d).padStart(2, '0')}`;
                 } else {
-                  console.warn(`Valor inválido para campo de data: ${cellValue}`);
-                  field.value = '';
+                  field.value = cellValue ?? '';
                 }
               } else {
+                // Para todos os outros campos, mantenha o valor original
                 field.value = cellValue !== undefined ? cellValue : '';
               }
             }
           }
 
-          messageElement.textContent = 'Dados carregados com sucesso!';
+          messageElement.textContent = 'Dados carregados na íntegra da planilha!';
           messageElement.style.display = 'block';
         } catch (error) {
           console.error('Erro ao processar a planilha:', error);
